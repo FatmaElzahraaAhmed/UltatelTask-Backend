@@ -31,7 +31,7 @@ import { EmailModule } from './email/email.module';
       entities: [Student, User, RefreshToken],
       synchronize: true,
     }),
-    AuthModule,
+    AuthModule, 
     StudentModule,
     UserModule,
     EmailModule
