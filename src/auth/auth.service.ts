@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { RefreshTokenRepository } from './refresh-token.repository';
+import { RefreshTokenRepository } from '../token/refresh-token.repository';
 
 @Injectable()
 export class AuthService {

@@ -1,11 +1,4 @@
-import {
-  BaseEntity,
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  BeforeInsert,
-  UpdateDateColumn,
-} from 'typeorm';
+import { BaseEntity, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User extends BaseEntity {
@@ -21,7 +14,9 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
-  @Column()
-  @UpdateDateColumn()
-  updateAt: Date;
+  @Column({ default: false })
+  isEmailConfirmed: boolean;
+
+  @Column({ nullable: true })
+  emailConfirmationToken: string;
 }

@@ -9,7 +9,8 @@ import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
-import { RefreshToken } from './auth/refresh-token.entity';
+import { RefreshToken } from './token/refresh-token.entity';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { RefreshToken } from './auth/refresh-token.entity';
     AuthModule,
     StudentModule,
     UserModule,
+    EmailModule
   ],
   controllers: [AppController],
   providers: [AppService],

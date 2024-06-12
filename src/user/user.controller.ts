@@ -5,7 +5,10 @@ import {
   HttpCode,
   HttpStatus,
   UsePipes,
-  ValidationPipe
+  ValidationPipe,
+  Get,
+  Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
 import { UserService } from './user.service';
@@ -33,7 +36,24 @@ export class UserController {
   @ApiResponse({ status: 400, description: 'Invalid input.' })
   async register(@Body() registerDto: RegisterDto) {
     const user = await this.userService.register(registerDto);
-    return user;
+    return {
+      message:
+        'Registration successful. Please check your email to confirm your account.',
+    };
+    // return user;
+  }
+
+  @Get('confirm-email')
+  @ApiOperation({ summary: 'Confirm user email' })
+  @ApiResponse({ status: 200, description: 'Email confirmed successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid token' })
+  async confirmEmail(@Query('token') token: string) {
+    try {
+      await this.userService.confirmEmail(token);
+      return { message: 'Email confirmed successfully' };
+    } catch (error) {
+      throw new BadRequestException('Invalid or expired confirmation token');
+    }
   }
 
   @Post('login')
@@ -49,8 +69,6 @@ export class UserController {
     );
     return { accessToken };
   }
-  
-  
 
   @Post('refresh-token')
   @ApiOperation({ summary: 'Refresh access token using refresh token' })
@@ -60,12 +78,9 @@ export class UserController {
     @Body('refreshToken') refreshToken: string,
   ): Promise<{ accessToken: string }> {
     const payload = await this.authService.verifyRefreshToken(refreshToken);
-    const {accessToken} = await this.authService.generateTokens(
+    const { accessToken } = await this.authService.generateTokens(
       payload.userId,
     );
     return { accessToken };
   }
-
-  
-
 }
