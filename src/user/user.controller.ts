@@ -75,12 +75,12 @@ export class UserController {
   @ApiResponse({ status: 201, description: 'User logged in successfully' })
   @ApiResponse({ status: 400, description: 'Invalid input.' })
   @HttpCode(HttpStatus.OK)
-  async login(@Body() loginDto: LoginDto): Promise<{ accessToken: string }> {
-    const { accessToken } = await this.userService.login(
+  async login(@Body() loginDto: LoginDto): Promise<{ accessToken: string; refreshToken: string }> {
+    const { accessToken, refreshToken } = await this.userService.login(
       loginDto.email,
       loginDto.password,
     );
-    return { accessToken };
+    return { accessToken, refreshToken };
   }
 
   @Post('refresh-token')
