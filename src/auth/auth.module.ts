@@ -3,9 +3,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RefreshToken } from '../token/refresh-token.entity';
-import { RefreshTokenRepository } from '../token/refresh-token.repository';
-
+import { RefreshToken } from 'src/token/refresh-token.entity';
+import { RefreshTokenRepository } from 'src/token/refresh-token.repository';
 @Module({
   imports: [
     JwtModule.register({
