@@ -39,8 +39,8 @@ export class UserController {
     return {
       message:
         'Registration successful. Please check your email to confirm your account.',
+      emailToken: user.emailConfirmationToken,
     };
-    // return user;
   }
 
   @Get('confirm-email')
