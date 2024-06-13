@@ -7,8 +7,8 @@ import {
 import { RegisterDto } from './dto/register.dto';
 import { User } from './entities/user.entity';
 import { UserRepository } from './user.repository';
-import { AuthService } from '../auth/auth.service';
 import { EmailService } from 'src/email/email.service';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class UserService {

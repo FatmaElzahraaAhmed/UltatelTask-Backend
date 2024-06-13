@@ -18,6 +18,7 @@ import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Student } from './entities/student.entity';
 import { AuthGuard } from 'src/auth/auth.guard';
 
+
 @ApiTags('student')
 @Controller('student')
 @UseGuards(AuthGuard)
