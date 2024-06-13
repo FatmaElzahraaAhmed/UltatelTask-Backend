@@ -46,7 +46,7 @@ export class UserRepository extends Repository<User> {
   async login(email: string, password: string): Promise<User> {
     const user = await this.findOne({ where: { email } });
     if (!user) {
-      throw new BadRequestException('Invalid credentials');
+      throw new BadRequestException("Email doesn't exist");
     }
 
     if (!user.isEmailConfirmed) {
@@ -55,7 +55,7 @@ export class UserRepository extends Repository<User> {
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw new BadRequestException('Invalid credentials');
+      throw new BadRequestException('Wrong Password');
     }
 
     return user;
