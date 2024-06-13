@@ -9,6 +9,12 @@ async function bootstrap() {
   dotenv.config();
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors({
+    origin: '*', 
+    methods: ['GET', 'POST','PUT',"DELETE"], 
+    allowedHeaders: ['*'], 
+  });
+
   const config = new DocumentBuilder()
     .setTitle('Student API')
     .setDescription('API for managing students')
