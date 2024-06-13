@@ -39,6 +39,23 @@ export class UserService {
     }
   }
 
+  async resendConfirmationEmail(email: string): Promise<void> {
+    const user = await this.userRepository.findByEmail(email);
+
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    if (user.isEmailConfirmed) {
+      throw new BadRequestException('Email is already confirmed');
+    }
+
+    await this.emailService.sendConfirmationEmail(
+      user.email,
+      user.emailConfirmationToken,
+    );
+  }
+
   async confirmEmail(token: string): Promise<void> {
     await this.userRepository.confirmEmail(token);
   }

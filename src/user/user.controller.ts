@@ -43,6 +43,19 @@ export class UserController {
     };
   }
 
+  @Post('resend-confirmation-email')
+  @ApiOperation({ summary: 'Resend confirmation email' })
+  @ApiResponse({ status: 200, description: 'Confirmation email resent successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid input.' })
+  async resendConfirmationEmail(@Body('email') email: string) {
+    try {
+      await this.userService.resendConfirmationEmail(email);
+      return { message: 'Confirmation email resent successfully' };
+    } catch (error) {
+      throw new BadRequestException('Failed to resend confirmation email');
+    } 
+  }
+
   @Get('confirm-email')
   @ApiOperation({ summary: 'Confirm user email' })
   @ApiResponse({ status: 200, description: 'Email confirmed successfully' })

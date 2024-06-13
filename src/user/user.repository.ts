@@ -30,6 +30,7 @@ export class UserRepository extends Repository<User> {
     await user.save();
     return user;
   }
+  
 
   async confirmEmail(token: string): Promise<User> {
     const user = await this.findOne({ where: { emailConfirmationToken: token } });
@@ -58,5 +59,9 @@ export class UserRepository extends Repository<User> {
     }
 
     return user;
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    return this.findOne({ where: { email } });
   }
 }
