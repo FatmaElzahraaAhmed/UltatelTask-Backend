@@ -1,15 +1,13 @@
 import {
   IsString,
   IsEmail,
-  IsInt,
   IsDate,
-  Min,
-  Max,
   IsNotEmpty,
   IsEnum,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsDateInRange } from './isDateInRange.decorator';
 
 export enum Gender {
   Male = 'Male',
@@ -22,17 +20,6 @@ export class CreateStudentDto {
   @IsNotEmpty()
   name: string;
 
-  @ApiProperty({
-    example: 20,
-    description: 'The age of the student',
-    minimum: 16,
-    maximum: 30,
-  })
-  @IsInt()
-  @Min(16)
-  @Max(30)
-  @IsNotEmpty()
-  age: number;
 
   @ApiProperty({
     example: 'john.doe@example.com',
@@ -57,7 +44,7 @@ export class CreateStudentDto {
   country: string;
 
   @ApiProperty({
-    example: '2000-01-01',
+    example: '2005-06-15',
     description: 'The birth date of the student',
     type: String,
     format: 'date',
@@ -65,5 +52,8 @@ export class CreateStudentDto {
   @Type(() => Date)
   @IsDate()
   @IsNotEmpty()
+  @IsDateInRange(new Date('2000-01-01'), new Date('2010-12-31'), {
+    message: 'Date of birth must be between 2000-01-01 and 2010-12-31',
+  })
   dateOfBirth: Date;
 }

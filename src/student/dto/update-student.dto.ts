@@ -3,6 +3,7 @@ import { CreateStudentDto } from './create-student.dto';
 import { IsOptional } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Gender } from './create-student.dto';
+import { IsDateInRange } from './isDateInRange.decorator';
 
 export class UpdateStudentDto extends PartialType(CreateStudentDto) {
   @ApiPropertyOptional({
@@ -12,14 +13,6 @@ export class UpdateStudentDto extends PartialType(CreateStudentDto) {
   @IsOptional()
   name?: string;
 
-  @ApiPropertyOptional({
-    example: 20,
-    description: 'The age of the student',
-    minimum: 16,
-    maximum: 30,
-  })
-  @IsOptional()
-  age?: number;
 
   @ApiPropertyOptional({
     example: 'john.doe@example.com',
@@ -44,11 +37,14 @@ export class UpdateStudentDto extends PartialType(CreateStudentDto) {
   country?: string;
 
   @ApiPropertyOptional({
-    example: '2000-01-01',
+    example: '2005-06-15',
     description: 'The birth date of the student',
     type: String,
     format: 'date',
   })
   @IsOptional()
+  @IsDateInRange(new Date('2000-01-01'), new Date('2010-12-31'), {
+    message: 'Date of birth must be between 2000-01-01 and 2010-12-31',
+  })
   dateOfBirth?: Date;
 }
