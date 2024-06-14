@@ -13,7 +13,7 @@ export class AuthService {
     userId: number,
   ): Promise<{ accessToken: string; refreshToken: string }> {
     const payload = { userId };
-    const accessToken = this.jwtService.sign(payload, { expiresIn: '1h' });
+    const accessToken = this.jwtService.sign(payload, { expiresIn: '7d' });
     const refreshToken = await this.generateRefreshToken(userId);
     return { accessToken, refreshToken };
   }

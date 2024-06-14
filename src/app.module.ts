@@ -16,7 +16,7 @@ import { EmailModule } from './email/email.module';
   imports: [
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'secret-key',
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: '7d' },
     }),
     ConfigModule.forRoot({
       isGlobal: true,
