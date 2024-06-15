@@ -19,7 +19,7 @@ export class EmailService {
   }
 
   async sendConfirmationEmail(email: string, token: string): Promise<void> {
-    const confirmationUrl = `http://localhost:3000/user/confirm-email?token=${token}`;
+    const confirmationUrl = `http://localhost:4200/email-confirmed/?token=${token}`;
 
     await this.transporter.sendMail({
       from: 'ultatel9@gmail.com',
