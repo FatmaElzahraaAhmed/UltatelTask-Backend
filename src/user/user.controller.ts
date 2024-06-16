@@ -17,7 +17,7 @@ import { User } from './entities/user.entity';
 import { LoginDto } from './dto/login.dto';
 import { AuthService } from 'src/auth/auth.service';
 
-@ApiTags('user')
+@ApiTags('User')
 @Controller('user')
 export class UserController {
   constructor(
@@ -45,7 +45,10 @@ export class UserController {
 
   @Post('resend-confirmation-email')
   @ApiOperation({ summary: 'Resend confirmation email' })
-  @ApiResponse({ status: 200, description: 'Confirmation email resent successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Confirmation email resent successfully',
+  })
   @ApiResponse({ status: 400, description: 'Invalid input.' })
   async resendConfirmationEmail(@Body('email') email: string) {
     try {
@@ -53,7 +56,7 @@ export class UserController {
       return { message: 'Confirmation email resent successfully' };
     } catch (error) {
       throw new BadRequestException('Failed to resend confirmation email');
-    } 
+    }
   }
 
   @Get('confirm-email')
@@ -83,19 +86,17 @@ export class UserController {
     return { accessToken };
   }
 
-  @Post('refresh-token')
-  @ApiOperation({ summary: 'Refresh access token using refresh token' })
-  @ApiResponse({ status: 201, description: 'New access token generated' })
-  @ApiResponse({ status: 400, description: 'Invalid input.' })
-  async refreshToken(
-    @Body('refreshToken') refreshToken: string,
-  ): Promise<{ accessToken: string }> {
-    const payload = await this.authService.verifyRefreshToken(refreshToken);
-    const { accessToken } = await this.authService.generateTokens(
-      payload.userId,
-    );
-    return { accessToken };
-  }
-
-  
+  // @Post('refresh-token')
+  // @ApiOperation({ summary: 'Refresh access token using refresh token' })
+  // @ApiResponse({ status: 201, description: 'New access token generated' })
+  // @ApiResponse({ status: 400, description: 'Invalid input.' })
+  // async refreshToken(
+  //   @Body('refreshToken') refreshToken: string,
+  // ): Promise<{ accessToken: string }> {
+  //   const payload = await this.authService.verifyRefreshToken(refreshToken);
+  //   const { accessToken } = await this.authService.generateTokens(
+  //     payload.userId,
+  //   );
+  //   return { accessToken };
+  // }
 }

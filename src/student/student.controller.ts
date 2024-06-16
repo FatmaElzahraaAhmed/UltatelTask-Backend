@@ -19,7 +19,7 @@ import { Student } from './entities/student.entity';
 import { AuthGuard } from 'src/auth/auth.guard';
 
 
-@ApiTags('student')
+@ApiTags('Student')
 @Controller('student')
 @UseGuards(AuthGuard)
 export class StudentController {
@@ -73,5 +73,14 @@ export class StudentController {
     const success = await this.studentService.remove(+id);
     if (!success) throw new NotFoundException('Student not found');
     return { success };
+  }
+
+  @Post('multiple')
+  @UsePipes(new ValidationPipe({ whitelist: true }))
+  @ApiOperation({ summary: 'Create multiple students' })
+  @ApiResponse({ status: 201, description: 'The students have been successfully created.', type: Student, isArray: true })
+  @ApiResponse({ status: 400, description: 'Invalid input.' })
+  async createMultiple(@Body() createStudentDtos: CreateStudentDto[]): Promise<Student[]> {
+    return await this.studentService.createMultiple(createStudentDtos);
   }
 }

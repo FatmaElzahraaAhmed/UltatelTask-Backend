@@ -70,4 +70,28 @@ export class StudentService {
   async remove(id: number): Promise<boolean> {
     return await this.studentRepository.deleteStudent(id);
   }
+
+  async createMultiple(createStudentDtos: CreateStudentDto[]): Promise<Student[]> {
+    const createdStudents: Student[] = [];
+
+    for (const createStudentDto of createStudentDtos) {
+      const age = this.calculateAge(createStudentDto.dateOfBirth);
+      const student = this.studentRepository.create({
+        ...createStudentDto,
+        age: age,
+      });
+
+      try {
+        const savedStudent = await this.studentRepository.save(student);
+        createdStudents.push(savedStudent);
+      } catch (error) {
+        if (error.code === 'ER_DUP_ENTRY') {
+          throw new ConflictException('Email is already taken');
+        }
+        throw error;
+      }
+    }
+
+    return createdStudents;
+  }
 }
