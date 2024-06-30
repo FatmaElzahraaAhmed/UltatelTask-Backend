@@ -7,12 +7,18 @@ import { IsDateInRange } from './isDateInRange.decorator';
 
 export class UpdateStudentDto extends PartialType(CreateStudentDto) {
   @ApiPropertyOptional({
-    example: 'John Doe',
-    description: 'The name of the student',
+    example: 'John',
+    description: 'The first name of the student',
   })
   @IsOptional()
-  name?: string;
+  firstName?: string;
 
+  @ApiPropertyOptional({
+    example: 'Doe',
+    description: 'The last name of the student',
+  })
+  @IsOptional()
+  lastName?: string;
 
   @ApiPropertyOptional({
     example: 'john.doe@example.com',
@@ -43,8 +49,8 @@ export class UpdateStudentDto extends PartialType(CreateStudentDto) {
     format: 'date',
   })
   @IsOptional()
-  @IsDateInRange(new Date('2000-01-01'), new Date('2010-12-31'), {
-    message: 'Date of birth must be between 2000-01-01 and 2010-12-31',
+  @IsDateInRange(14, 24, {
+    message: 'Date of birth must be between 14 and 24 years from today',
   })
   dateOfBirth?: Date;
 }

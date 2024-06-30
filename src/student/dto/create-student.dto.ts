@@ -15,11 +15,15 @@ export enum Gender {
 }
 
 export class CreateStudentDto {
-  @ApiProperty({ example: 'John Doe', description: 'The name of the student' })
+  @ApiProperty({ example: 'John', description: 'The first name of the student' })
   @IsString()
   @IsNotEmpty()
-  name: string;
+  firstName: string;
 
+  @ApiProperty({ example: 'Doe', description: 'The last name of the student' })
+  @IsString()
+  @IsNotEmpty()
+  lastName: string;
 
   @ApiProperty({
     example: 'john.doe@example.com',
@@ -52,8 +56,8 @@ export class CreateStudentDto {
   @Type(() => Date)
   @IsDate()
   @IsNotEmpty()
-  @IsDateInRange(new Date('2000-01-01'), new Date('2010-12-31'), {
-    message: 'Date of birth must be between 2000-01-01 and 2010-12-31',
+  @IsDateInRange(14, 24, {
+    message: 'Date of birth must be between 14 and 24 years from today',
   })
   dateOfBirth: Date;
 }

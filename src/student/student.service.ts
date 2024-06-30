@@ -8,22 +8,10 @@ import { Student } from './entities/student.entity';
 export class StudentService {
   constructor(private readonly studentRepository: StudentRepository) {}
 
-  private calculateAge(dateOfBirth: Date): number {
-    const today = new Date();
-    const birthDate = new Date(dateOfBirth);
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDifference = today.getMonth() - birthDate.getMonth();
-    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
-    return age;
-  }
 
   async create(createStudentDto: CreateStudentDto): Promise<Student> {
-    const age = this.calculateAge(createStudentDto.dateOfBirth);
     const student = this.studentRepository.create({
-      ...createStudentDto,
-      age: age,
+      ...createStudentDto
     });
     try {
       return await this.studentRepository.save(student);
@@ -52,8 +40,7 @@ export class StudentService {
 
     const updatedStudent = {
       ...student,
-      ...updateStudentDto,
-      age: updateStudentDto.dateOfBirth ? this.calculateAge(updateStudentDto.dateOfBirth) : student.age,
+      ...updateStudentDto
     };
 
     try {
@@ -75,10 +62,8 @@ export class StudentService {
     const createdStudents: Student[] = [];
 
     for (const createStudentDto of createStudentDtos) {
-      const age = this.calculateAge(createStudentDto.dateOfBirth);
       const student = this.studentRepository.create({
-        ...createStudentDto,
-        age: age,
+        ...createStudentDto
       });
 
       try {

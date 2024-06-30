@@ -45,8 +45,8 @@ export class StudentController {
   @ApiOperation({ summary: 'Get a student by ID' })
   @ApiResponse({ status: 200, description: 'The student with the given ID', type: Student })
   @ApiResponse({ status: 404, description: 'Student not found.' })
-  async findOne(@Param('id') id: string): Promise<Student> {
-    const student = await this.studentService.findOne(+id);
+  async findOne(@Param('id') id: number): Promise<Student> {
+    const student = await this.studentService.findOne(id);
     if (!student) throw new NotFoundException('Student not found');
     return student;
   }
@@ -57,10 +57,10 @@ export class StudentController {
   @ApiResponse({ status: 200, description: 'The updated student', type: Student })
   @ApiResponse({ status: 404, description: 'Student not found.' })
   async update(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateStudentDto: UpdateStudentDto,
   ): Promise<Student> {
-    const updatedStudent = await this.studentService.update(+id, updateStudentDto);
+    const updatedStudent = await this.studentService.update(id, updateStudentDto);
     if (!updatedStudent) throw new NotFoundException('Student not found');
     return updatedStudent;
   }
@@ -69,8 +69,8 @@ export class StudentController {
   @ApiOperation({ summary: 'Delete a student by ID' })
   @ApiResponse({ status: 200, description: 'Student deleted successfully.' })
   @ApiResponse({ status: 404, description: 'Student not found.' })
-  async remove(@Param('id') id: string): Promise<{ success: boolean }> {
-    const success = await this.studentService.remove(+id);
+  async remove(@Param('id') id: number): Promise<{ success: boolean }> {
+    const success = await this.studentService.remove(id);
     if (!success) throw new NotFoundException('Student not found');
     return { success };
   }
